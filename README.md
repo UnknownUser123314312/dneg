@@ -134,6 +134,8 @@ Pipeline.pretty_print(results)
 ## Package Structure
 - **`CueBertInference`**: Detects negation cues (labeled as "C" for cues, "X" otherwise).
 - **`ScopeBertInference`**: Identifies the scope of negation (labeled as "S" for scope, "X" otherwise).
+- - **`CueBertGATInference`**: Detects negation cues (labeled as "C" for cues, "X" otherwise) + syntax aware GAN.
+- **`ScopeBertGATInference`**: Identifies the scope of negation (labeled as "S" for scope, "X" otherwise) + syntax aware GAN.
 - **`Pipeline`**: Combines `CueBertInference` and `ScopeBertInference` for end-to-end negation detection.
 - **Special Tokens**:
   - `[CUE]`: Marks negation cues.
