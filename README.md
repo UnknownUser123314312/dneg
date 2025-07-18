@@ -3,8 +3,8 @@
 `dneg` is a Python package for detecting negation cues and their scopes in text using fine-tuned BERT models. It provides a pipeline to process batched text inputs, identify negation cues (e.g., "not", "n't"), and determine the scope of negation within sentences. The package leverages the Hugging Face Transformers library, PyTorch-Geometric, and PyTorch for efficient inference.
 
 ## Features
-- **Negation Cue Detection**: Identifies negation cues (e.g., "not", "n't") using the `CueBertInference` class.
-- **Negation Scope Detection**: Determines the scope of negation in text using the `ScopeBertInference` class.
+- **Negation Cue Detection**: Identifies negation cues (e.g., "not", "n't") using the `CueBertInference` or `CueBertInferenceGAT` class.
+- **Negation Scope Detection**: Determines the scope of negation in text using the `ScopeBertInference` or `ScopeBertInferenceGAT` class.
 - **Pipeline Processing**: Combines cue and scope detection in a single pipeline for streamlined processing.
 - **Batch Processing**: Supports batched inputs for efficient inference.
 - **GPU Support**: Utilizes CUDA for accelerated inference on compatible hardware.
@@ -134,8 +134,8 @@ Pipeline.pretty_print(results)
 ## Package Structure
 - **`CueBertInference`**: Detects negation cues (labeled as "C" for cues, "X" otherwise).
 - **`ScopeBertInference`**: Identifies the scope of negation (labeled as "S" for scope, "X" otherwise).
-- - **`CueBertGATInference`**: Detects negation cues (labeled as "C" for cues, "X" otherwise) + syntax aware GAN.
-- **`ScopeBertGATInference`**: Identifies the scope of negation (labeled as "S" for scope, "X" otherwise) + syntax aware GAN.
+- - **`CueBertInferenceGAT`**: Detects negation cues (labeled as "C" for cues, "X" otherwise) + syntax aware GAN.
+- **`ScopeBertInferenceGAT`**: Identifies the scope of negation (labeled as "S" for scope, "X" otherwise) + syntax aware GAN.
 - **`Pipeline`**: Combines `CueBertInference` and `ScopeBertInference` for end-to-end negation detection.
 - **Special Tokens**:
   - `[CUE]`: Marks negation cues.
