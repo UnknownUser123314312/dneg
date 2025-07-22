@@ -3,18 +3,19 @@ name: Publish to PyPI
 on:
   push:
     tags:
-      - 'v*'  # Trigger on tags like v1.0.0 pushed via Git
+      - 'v*'  # Trigger on tags like v1.0.0
   release:
-    types: [published]  # Trigger on releases published via the web interface
-  workflow_dispatch:  # Allow manual execution from the GitHub Actions tab
+    types: [published]  # Trigger on releases published via web interface
+  workflow_dispatch:  # Allow manual execution
 
 jobs:
-  publish:
+  publish-testpypi:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - name: Install dependencies
@@ -23,13 +24,33 @@ jobs:
           pip install build twine
       - name: Build package
         run: python -m build
+      - name: Verify build
+        run: twine check dist/*
       - name: Publish to TestPyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        run: python -m twine upload --repository testpypi dist/*
+        run: python -m twine upload --repository testpypi dist/* --verbose
+  publish-pypi:
+    needs: publish-testpypi
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+      - name: Build package
+        run: python -m build
+      - name: Verify build
+        run: twine check dist/*
       - name: Publish to PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: python -m twine upload dist/*
+        run: python -m twine upload dist/* --verbose
